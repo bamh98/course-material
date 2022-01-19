@@ -1,18 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
+<!-- saved from url=(0120)https://peppel-g.github.io/course-material/courses/web-development-advanced-concepts/files/lab-01-table-of-contents.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Lab 1 - Generating Table of Contents</title>
 	<script>
-		
 		// Write your JavaScript code here that populates #tableOfContents with a <ul> which in turn contains one <li> for each <h2> below.
+		const SHOW_BTN = "Show"
+		const HIDE_BTN = "Hide"		
+
+		let contentsTableList = document.createElement("ul")
+		contentsTableList.style.display = "None"
+
+		document.addEventListener("DOMContentLoaded", function () {
+			let contentsTable = document.getElementById("tableOfContents")
+			contentsTable.appendChild(contentsTableList)
+			var headers = document.querySelectorAll("h2") 
+
 		// Want a harder challenge? Put <a> in <li> that leads to the <h2>.
+			for (i=0;headers.length>i;i++){
+				let li = document.createElement("li")
+				let a = document.createElement("a")
+				headerTitle = headers[i].innerText
+				headers[i].setAttribute("id",headerTitle) // set h2 id to jump to
+				let link = document.createTextNode(headerTitle)
+				a.href = '#'+headerTitle // href to know where to jump to
+				a.appendChild(link)
+				li.appendChild(a)
+				contentsTableList.appendChild(li)
+			}
 		// Want a harder challenge? Add a button one can click to toggle the visibility of the table of contents.
+			let btn = document.createElement("button")
+			btn.innerHTML = SHOW_BTN
+			contentsTable.appendChild(btn)
+			btn.addEventListener("click", function () {
+				if (btn.innerHTML==SHOW_BTN){
+					btn.innerHTML=HIDE_BTN
+					contentsTableList.style.display = "block"
+				} else {
+					btn.innerHTML=SHOW_BTN 
+					contentsTableList.style.display = "None"
+				}
+			})
+		})
 		
 	</script>
 </head>
-<body>
+<body data-new-gr-c-s-check-loaded="14.1045.0" data-gr-ext-installed="">
 	
 	<article>
 		
@@ -156,5 +190,5 @@
 		
 	</article>
 	
-</body>
-</html>
+
+</body><grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration></html>
