@@ -6,6 +6,12 @@
 	<title>Lab 4 - Tabs</title>
 	<style>
 		
+ /* Although all three forms are useful, displaying all of them at the same 
+ time makes no sense since the user is only interested in using one of them   
+ at a time. Your task is to write JavaScript code that displays only one form
+ at a time, and by clicking on links the user should be able to switch
+ which form that is shown. */
+
 		section{
 			background-color: silver;
 			border-radius: 15px;
@@ -21,7 +27,27 @@
 	<script>
 		
 		// Write your JavaScript code here.
-		
+        document.addEventListener("DOMContentLoaded", function(){
+			let div = document.getElementById("sections")
+            let sections = document.querySelectorAll("body div[id='sections'] section")
+			for (const section of sections){
+				section.style.display="None"
+				const value = section.querySelector("section form input[type='submit']").value
+				let btn = document.createElement("button")
+				btn.innerText= value
+				div.appendChild(btn)
+				
+				btn.addEventListener("click",function(event){
+					for (const section of sections){
+						const value = section.querySelector("section form input[type='submit']").value
+						if (btn.innerText != value){
+							section.style.display="None"
+						}
+					}
+					section.style.display="Block"
+				})
+			}
+        })
 	</script>
 </head>
 <body>
