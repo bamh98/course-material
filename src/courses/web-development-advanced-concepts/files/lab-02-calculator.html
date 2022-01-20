@@ -3,37 +3,102 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Lab 2 - Calculator</title>
+	<title>Lab 2 - CalchistoryListator</title>
 	<script>
 		
 		// Write your JavaScript code here.
-		// The result of the computation should be shown in the span element.
-		// Want a harder challenge? Also show a list with previously carried
-		// out operations and what the result was. Clicking on one of them,
-		// auto fills the form with that operation.
+		// The span.innerText of the computation shohistoryListd be shown in the span element.
+		document.addEventListener("DOMContentLoaded",function(){
+			const form = document.querySelector("body form")
+			const operand1 = document.querySelector("body form input[name='operand1']")
+			const operand2 = document.querySelector("body form input[name='operand2']")
+			const select = document.querySelector("body form select")
+
+			const SHOW_BTN = "Show History"
+			const HIDE_BTN = "Hide History"		
+			let historyBtn = document.createElement("button")
+			historyBtn.innerHTML = SHOW_BTN
+			document.body.appendChild(historyBtn)
+			let historyList = document.createElement("ul")
+			historyList.style.display = "None"
+			form.appendChild(historyList)
+			historyBtn.addEventListener("click", function () {
+				if (historyBtn.innerHTML==SHOW_BTN){
+					historyBtn.innerHTML=HIDE_BTN
+					historyList.style.display = "block"
+				} else {
+					historyBtn.innerHTML=SHOW_BTN 
+					historyList.style.display = "None"
+				}
+			})
+
+			form.addEventListener("submit",function(event){
+				event.preventDefault()
+				const span = document.querySelector("span")
+				// only handling div by 0 and null(ignoring overflow)
+				if (operand1.value !='' && operand2.value !=''){
+					const op1Value = operand1.valueAsNumber
+					const op2Value = operand2.valueAsNumber
+					let li = document.createElement("li")
+					switch (select.value){
+						case "add":
+							span.innerText = op1Value+op2Value
+							li.innerText =op1Value+" + "+op2Value
+							break
+						case "sub":
+							span.innerText = op1Value-op2Value
+							li.innerText =op1Value+" - "+op2Value
+							
+							break
+						case "mhistoryList":
+							span.innerText = op1Value*op2Value
+							li.innerText =op1Value+" * "+op2Value
+							break
+						case "div":
+							if (op2Value ==0){
+								span.innerText="div by 0 error"
+								return
+							}
+							span.innerText = op1Value/op2Value
+							li.innerText =op1Value+" / "+op2Value
+							break
+					}
+					li.onclick= function(event){
+						operand1.value = op1Value
+						operand2.value = op2Value
+						span.innerText="?"
+						console.log(op1Value,op2Value)
+					}
+					historyList.appendChild(li)
+				} else {
+					span.innerText="operands cannot be empty"
+				}
+			})
+
+		})
 		
 	</script>
 </head>
 <body>
 	
-	<h1>Calculator</h1>
+	<h1>CalchistoryListator</h1>
 	
-	<form id="calculatorForm" method="GET">
+	<form id="calchistoryListatorForm" method="GET">
 		
-		<input type="number" id="operand1" name="operand1">
+		<input type="number" id="op1Value" name="operand1">
 		
 		<select id="operation" name="operation">
 			<option value="add">+</option>
 			<option value="sub">-</option>
-			<option value="mul">*</option>
+			<option value="mhistoryList">*</option>
 			<option value="div">/</option>
 		</select>
 		
-		<input type="number" id="operand2" name="operand2">
+		<input type="number" id="op2Value" name="operand2">
 		
 		<input type="submit" value="=">
 		
-		<span id="result">?</span>
+		<span id="span.innerText">?</span>
 		
 	</form>
 	
