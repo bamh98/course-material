@@ -4,11 +4,77 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Lab 3 - Validating Forms</title>
+	<style>
+		.errorClass {
+		  color: crimson;
+		  display: inline;
+		}
+	</style>
 	<script>
 		
 		// Write your JavaScript code here.
 		// Display the error messages wherever you think it makes most sense.
-		
+		document.addEventListener("DOMContentLoaded", function(){
+			const email = document.getElementById("email")
+			const password = document.getElementById("password1")
+			const confirmationPassword = document.getElementById("password2")
+			let submit = document.querySelector("body form input[value='Create account']")
+
+			var emailErr = document.createElement("p")
+			emailErr.classList.add('errorClass')
+			email.parentNode.appendChild(emailErr)
+
+			var passwordErr = document.createElement("p")
+			passwordErr.classList.add('errorClass')
+			password.parentNode.appendChild(passwordErr)
+
+			var confirmationErr = document.createElement("p")
+			confirmationErr.classList.add('errorClass')
+			confirmationPassword.parentNode.appendChild(confirmationErr)
+
+			password.addEventListener("input",function(){
+				let pw = password.value
+				if (pw.length < 8){
+					passwordErr.innerText="password has to be at least 8 characters"
+					return
+				}
+				if (pw.length >14){
+					passwordErr.innerText="password has to be shorter than 15 characters"
+					return
+				}
+				var hasUpperCase = /[A-Z]/.test(pw);
+				var hasLowerCase = /[a-z]/.test(pw);
+				var hasNumbers = /\d/.test(pw);
+				var hasNonalphas = /\W/.test(pw);
+				if (hasUpperCase + hasLowerCase + hasNumbers + hasNonalphas < 3){
+					passwordErr.innerText="Password has to have lowercase,uppercase,numbers and non alphas"
+				} else{
+					passwordErr.innerText=""
+				}
+			})
+			submit.addEventListener("click",function(event){
+				event.preventDefault()
+				// invalid email
+				if (!/[a-zA-Z0-9]+@[a-zA-Z0-9]+.[a-zA-Z]+/.test(email.value)){
+					emailErr.innerText="invalid email"
+				}else {
+					emailErr.innerText=""
+				}
+				// passwords dont match
+				if (password.value != confirmationPassword.value){
+					confirmationErr.innerText="Passwords dont match"
+				} else {
+					confirmationErr.innerText=""
+				}
+				if (emailErr.innerText=="" && confirmationErr.innerText=="" && passwordErr.innerText==""){
+					if (email.value.length==0 || password.value.length==0){
+						alert("there are fields empty")
+					}else {
+						return true
+					}
+				}
+			})
+		})	
 	</script>
 </head>
 <body>
